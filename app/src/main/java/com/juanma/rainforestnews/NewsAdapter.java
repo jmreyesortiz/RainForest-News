@@ -47,7 +47,7 @@ public class NewsAdapter extends ArrayAdapter {
         //Headline
         TextView headline = (TextView) listItemView.findViewById(R.id.headline);
         headline.setText(news.getHeadline());
-        //Date
+        //Date Now
         TextView dateView = (TextView) listItemView.findViewById(R.id.date);
         String formattedDate = news.getDate();
         String finalDate = parseDate(formattedDate);
