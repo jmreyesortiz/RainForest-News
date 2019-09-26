@@ -1,60 +1,145 @@
 package com.juanma.rainforestnews;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.AsyncTaskLoader;
+import androidx.loader.content.Loader;
 
-import java.net.URI;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
+import java.io.IOException;
 import java.util.List;
 
-public class NewsActivity extends AppCompatActivity {
+public class NewsActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<News>> {
     private ListView mNewsListView;
-    private String URL = "https://newsapi.org/v2/everything?q=bitcoin&apiKey=";
-    //List <News> arrayofNews = new ArrayList<News>();
+    private String URL = "https://newsapi.org/v2/everything?q=rainforest&apiKey=";
+    ConnectivityManager cm;
+    NetworkInfo activeNetwork;
+    boolean isConnected;
+    ProgressBar mProgressBar;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+
+        cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        activeNetwork = cm.getActiveNetworkInfo();
+        isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.news_activity);
-        ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(NewsActivity.this)); // Image Loader Init
 
-        //Temporary JSON
-        List <News> arrayofNews = QueryUtils.fetchNewsData(URL);
+        getSupportLoaderManager().initLoader(1, null, this).forceLoad();
 
-        //ListView & Adapter Creation
-        mNewsListView = (ListView) findViewById(R.id.list);
-        final NewsAdapter mAdapter = new NewsAdapter(this,0,arrayofNews);
-        mNewsListView.setAdapter(mAdapter);
 
-        //Click Listener
-        mNewsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                // Obtain current position of news item
-                News currentNews = (News) mAdapter.getItem(position);
-                //Converting a String URL into a Uri Object
-                Uri NewsUri = Uri.parse(currentNews.getURL());
-                //Create a new intent to view a URL;
-                Intent websiteIntent = new Intent(Intent.ACTION_VIEW, NewsUri);
-                startActivity(websiteIntent);
-
-            }
-        });
     }
 
+
+
+
+    public static class NewsLoader extends AsyncTaskLoader<List<News>>{
+
+        private String jsonResult;
+        String input;
+        private News news;
+
+        public NewsLoader(@NonNull Context context, String url) {
+            super(context);
+            this.input = url;
+        }
+
+        @Nullable
+        @Override
+        public List<News> loadInBackground() {
+
+            try {
+                jsonResult = QueryUtils.httpRequest(input);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            List<News> listResult = QueryUtils.fetchNewsData(jsonResult);
+            return listResult;
+
+        }
+
+    }
+
+
+
+    @NonNull
+    @Override
+    public Loader<List<News>> onCreateLoader(int id, @Nullable Bundle args) {
+        return new NewsLoader(NewsActivity.this,URL);
+    }
+
+    @Override
+    public void onLoadFinished(@NonNull Loader<List<News>> loader, List<News> news) {
+
+
+        mProgressBar = findViewById(R.id.progress_bar);
+        mProgressBar.setVisibility(View.GONE);
+
+
+
+        //ListView Creation
+        mNewsListView = (ListView) findViewById(R.id.list);
+        // Adapter Creation
+        final NewsAdapter mAdapter = new NewsAdapter(this,0,news);
+
+
+
+        //mAdapter.clear();
+        if (news != null && !news.isEmpty()){
+            mNewsListView.setAdapter(mAdapter);
+            //Click Listener
+            mNewsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                    // Obtain current position of news item
+                    News currentNews = (News) mAdapter.getItem(position);
+                    //Converting a String URL into a Uri Object
+                    Uri NewsUri = Uri.parse(currentNews.getURL());
+                    //Create a new intent to view a URL;
+                    Intent websiteIntent = new Intent(Intent.ACTION_VIEW, NewsUri);
+                    startActivity(websiteIntent);
+
+                }
+            });
+
+        }
+        else if (!isConnected){
+            TextView mEmptyTextView = findViewById(R.id.empty_view);
+            mEmptyTextView.setText(R.string.no_news);
+            mNewsListView.setEmptyView(mEmptyTextView);
+        }
+        else{
+            TextView mEmptyTextView = findViewById(R.id.empty_view);
+            mEmptyTextView.setText(R.string.no_news);
+            mNewsListView.setEmptyView(mEmptyTextView);
+        }
+
+
+
+    }
+
+    @Override
+    public void onLoaderReset(@NonNull Loader<List<News>> loader) {
+        new NewsLoader(NewsActivity.this,URL);
+    }
 
 
 

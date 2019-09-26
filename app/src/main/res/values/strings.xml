@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">Rainforestnews</string>
-
+    <string name="no_news">No News</string>
 
 </resources>

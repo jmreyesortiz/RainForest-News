@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
 import java.time.Instant;
@@ -22,8 +22,9 @@ import java.util.List;
 
 public class NewsAdapter extends ArrayAdapter {
 
-    ImageLoader imageLoader = ImageLoader.getInstance();
     private String LOG_TAG = "Adapter";
+
+    //Image Variables
 
 
     public NewsAdapter(@NonNull Context context, int resource, List<News> list) {
@@ -60,10 +61,17 @@ public class NewsAdapter extends ArrayAdapter {
         //News Source
         TextView newsSource = (TextView) listItemView.findViewById(R.id.newsSource);
         newsSource.setText(news.getNewsSource());
-        //image
+        //image using Picasso
         final ImageView image = (ImageView) listItemView.findViewById(R.id.newsImage);
         String imageUri = news.getImage();
+        if (news!= null){
+            Picasso.get().load(imageUri).into(image);
+        }
         //TODO: Use Asynctask for Image loading. First Create your own way of doing it.
+
+
+
+
 
         return listItemView;
     }
@@ -93,6 +101,7 @@ public class NewsAdapter extends ArrayAdapter {
         return dateOut;
 
     }
+
 
 
 
