@@ -67,14 +67,12 @@ public class NewsAdapter extends ArrayAdapter {
         if (news!= null){
             Picasso.get().load(imageUri).into(image);
         }
-        //TODO: Use Asynctask for Image loading. First Create your own way of doing it.
-
-
-
-
 
         return listItemView;
     }
+
+
+    //Menu
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)

@@ -2,19 +2,26 @@ package com.juanma.rainforestnews;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.AsyncTaskLoader;
 import androidx.loader.content.Loader;
@@ -29,7 +36,7 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
     NetworkInfo activeNetwork;
     boolean isConnected;
     ProgressBar mProgressBar;
-
+    public static final int OPERATION_SEARCH_LOADER_ID = 22; // Loader Id
 
 
     @Override
@@ -39,17 +46,42 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
         cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         activeNetwork = cm.getActiveNetworkInfo();
         isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.news_activity);
-
+        //ToolBar
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+        mToolbar.getOverflowIcon().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP); //Changing the color of the Bar
         getSupportLoaderManager().initLoader(1, null, this).forceLoad();
 
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.options_menu, menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch(item.getItemId()){
+            case R.id.item1:
+                Intent intent = new Intent(this, NewsActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.item2:
+                Toast.makeText(this,"33333322", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.item3:
+                Toast.makeText(this,"322234234", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
 
+        }
+    }
 
     public static class NewsLoader extends AsyncTaskLoader<List<News>>{
 
@@ -77,8 +109,6 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
         }
 
     }
-
-
 
     @NonNull
     @Override
@@ -142,8 +172,14 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
 
+    private void makeQuery(String url){
 
+        Bundle queryBundle = new Bundle();
+        //queryBundle.putString();
 
     }
+
+
+}
 
 
