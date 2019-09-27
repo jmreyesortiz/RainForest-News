@@ -28,7 +28,7 @@ public class QueryUtils {
 
         //Used for the Progres Bar to show up
         try {
-            Thread.sleep(2000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
