@@ -10,7 +10,7 @@
 
     <item
         android:id="@+id/item2"
-        android:title="Re Forest"
+        android:title="ReForest"
         app:showAsAction="never"/>
 
     <item
