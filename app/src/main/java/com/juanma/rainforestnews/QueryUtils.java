@@ -23,6 +23,7 @@ public class QueryUtils {
     private static final String LOG_TAG = "NewsApp";
     private QueryUtils() {
     }
+    private static final String API_KEY ="36ff0e226c7048fdab6d987813d163fb";
 
     public static List<News> fetchNewsData(String jsonInput){
 
