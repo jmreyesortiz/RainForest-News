@@ -1,12 +1,17 @@
 package com.juanma.rainforestnews;
 
-public class News {
+import android.os.Parcelable;
+
+public class News  {
+
 
     private String mHeadline;
     private String mDate;
     private String mImage;
     private String mNewsSource;
     private String mURL;
+
+
 
     public News(String headline, String date, String imageURL, String newsSource, String URL) {
         mHeadline = headline;

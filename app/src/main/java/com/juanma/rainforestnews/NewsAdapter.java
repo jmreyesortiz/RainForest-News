@@ -72,9 +72,9 @@ public class NewsAdapter extends ArrayAdapter {
     }
 
 
-    //Menu
 
 
+    // Parse Date and Parse Time
     @RequiresApi(api = Build.VERSION_CODES.O)
     public  String parseDate(String input){
         java.util.Date date = Date.from( Instant.parse(input));

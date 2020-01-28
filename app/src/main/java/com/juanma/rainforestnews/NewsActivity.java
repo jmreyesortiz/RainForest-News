@@ -50,13 +50,12 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
         isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.news_activity);
+
         //ToolBar
         Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         Objects.requireNonNull(mToolbar.getOverflowIcon()).setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP); //Changing the color of the Bar
-        LoaderManager.getInstance(this).initLoader(LOADER_ID, null,this).forceLoad();
-
-
+        LoaderManager.getInstance(this).initLoader(LOADER_ID, null,this).forceLoad(); // Initializes Loader.
 
     }
 
