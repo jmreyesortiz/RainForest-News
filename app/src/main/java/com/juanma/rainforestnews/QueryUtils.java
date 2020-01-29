@@ -23,7 +23,7 @@ public class QueryUtils {
     private static final String LOG_TAG = "NewsApp";
     private QueryUtils() {
     }
-    private static final String API_KEY ="36ff0e226c7048fdab6d987813d163fb";
+    private static final String API_KEY ="Your_API_Key";    // Use your API key gotten from newsapi.org
 
     public static List<News> fetchNewsData(String jsonInput){
 
@@ -41,19 +41,16 @@ public class QueryUtils {
         //Try and Catch for JSON Object creation.
         try{
 
-
             String headline = "";
             String date = "1991";
             String imageURL = "";
             String newsSource = "";
             String url = "";
 
-
-
             JSONObject newsObject = new JSONObject(jsonInput);
             JSONArray articles = newsObject.getJSONArray("articles");
 
-
+            //Getting JSON objects.
             for(int i = 0; i<articles.length(); i++){
                 JSONObject article = articles.getJSONObject(i);
                 JSONObject source = article.getJSONObject("source");
@@ -103,16 +100,13 @@ public class QueryUtils {
 
             else
             {
-                Log.e(LOG_TAG, "Error response code: " + urlConnection.getResponseCode());
+                Log.e(LOG_TAG, "Error response code!: " + urlConnection.getResponseCode());
             }
 
         } catch (
-    MalformedURLException e) {
-        e.printStackTrace();
-    } catch (
     IOException e) {
         e.printStackTrace();
-    }finally {
+    } finally {
         if (urlConnection != null) {
             urlConnection.disconnect();
         }

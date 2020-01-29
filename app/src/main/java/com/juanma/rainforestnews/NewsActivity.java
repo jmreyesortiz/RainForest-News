@@ -34,6 +34,7 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
     private ListView mNewsListView;
     private static final String FIRST_URL = "https://newsapi.org/v2/everything?q=rainforest&apiKey=";
     private static final String OTHER_URL = "https://newsapi.org/v2/everything?q=Slayer&apiKey=";
+
     ConnectivityManager cm;
     NetworkInfo activeNetwork;
     boolean isConnected;
@@ -94,7 +95,6 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
         private String jsonResult;
         String input;
         private News news;
-       ;
 
 
         public NewsLoader(@NonNull Context context, String url) {
