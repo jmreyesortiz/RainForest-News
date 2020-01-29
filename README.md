@@ -8,7 +8,8 @@
 
 **Introduction**
 > Find news about the earth and its climate
-> New and Improved version can be found here: https://github.com/jmreyesortiz/GreenNewsApp
+
+>New and Improved version can be found here: https://github.com/jmreyesortiz/GreenNewsApp
 
 **Libraries / Tools**
 
