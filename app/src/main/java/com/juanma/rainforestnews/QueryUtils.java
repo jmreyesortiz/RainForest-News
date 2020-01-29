@@ -82,10 +82,8 @@ public class QueryUtils {
         HttpURLConnection urlConnection = null;
         InputStream inputStream = null;
         String jsonResponse = "";
-<<<<<<< HEAD
-=======
+
         String API_KEY = "Your Api Key";    //Api key from newsapi.org
->>>>>>> 5b5e87d3d077d1c86f9409d07f6933c65893d3c1
         String urlString = url + API_KEY;
 
 
