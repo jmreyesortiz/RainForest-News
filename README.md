@@ -16,6 +16,7 @@
 * AsyncTaskLoader 
 * HttpURLConnection
 * Picasso
+* GSON
 
 **App Architecture**
 
